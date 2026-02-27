@@ -31,7 +31,7 @@ export default function LoginScreen() {
 			const response = await api.login({ username, password })
 			await saveUser(response.user, response.tokens.accessToken, response.tokens.refreshToken)
 			Alert.alert('Успех', 'Вы вошли в систему!')
-			router.replace('/')
+			router.replace('/shop')
 		} catch (error: any) {
 			Alert.alert('Ошибка', error.message || 'Не удалось войти')
 		} finally {
@@ -54,7 +54,7 @@ export default function LoginScreen() {
 
 			<TextInput
 				style={styles.input}
-				placeholder='Пароль (минимум 6 символов)'
+				placeholder='Пароль'
 				value={password}
 				onChangeText={setPassword}
 				secureTextEntry
