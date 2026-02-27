@@ -1,5 +1,5 @@
 // app/(home)/shop.tsx
-import { useCart } from '@/hooks/useTovars'
+import { useCart } from '@/contexts/CartContext'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'

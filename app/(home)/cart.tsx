@@ -1,5 +1,5 @@
 // app/(home)/cart.tsx
-import { useCart } from '@/hooks/useTovars'
+import { useCart } from '@/contexts/CartContext'
 import { Ionicons } from '@expo/vector-icons'
 import { useEffect } from 'react'
 import { Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
