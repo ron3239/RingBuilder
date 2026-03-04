@@ -81,10 +81,18 @@ export default function ShopScreen() {
 
 					return (
 						<View style={styles.productCard}>
-							<Image
-								source={{ uri: item.images[0] }}
-								style={styles.productImage}
-							/>
+							<TouchableOpacity
+								activeOpacity={0.8}
+								onPress={() => {
+									// @ts-ignore
+									router.push(`/(home)/product/${item.id}`)
+								}}
+							>
+								<Image
+									source={{ uri: item.images[0] }}
+									style={styles.productImage}
+								/>
+							</TouchableOpacity>
 
 							<View style={styles.productInfo}>
 								<Text style={styles.productName}>{item.name}</Text>
