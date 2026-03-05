@@ -9,45 +9,42 @@ import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } fr
 const PRODUCTS = [
 	{
 		id: '1',
-		name: 'Кольцо с бриллиантом',
-		description: 'Элегантное золотое кольцо с бриллиантом. Идеальный выбор для помолвки или особого случая.',
+		name: 'Браслет с двумя змеями',
+		description: 'Элегантный браслет с двумя змеями. Уникальный дизайн для стильного образа.',
 		price: 45000,
 		images: ['https://via.placeholder.com/150'],
 		sizes: ['16', '17', '18', '19', '20'],
 		maxQuantity: 5,
-		model: 'ring',
+		modelName: 'ring',
 		defaultMetalColor: '#ffd700',
-		defaultStoneColor: '#ffffff',
 	},
 	{
 		id: '2',
-		name: 'Подвеска с сапфиром',
-		description: 'Изящная подвеска с сапфиром в золотой оправе. Подчеркнёт вашу индивидуальность.',
+		name: 'Кулон Звезда Давида',
+		description: 'Изящный кулон в виде Звезды Давида. Символ веры и защиты.',
 		price: 32000,
 		images: ['https://via.placeholder.com/150'],
 		maxQuantity: 3,
-		model: 'pendant_sapphire',
+		modelName: 'david_star',
 		defaultMetalColor: '#ffd700',
-		defaultStoneColor: '#4169E1',
 	},
 	{
 		id: '3',
-		name: 'Серьги изумрудные',
-		description: 'Роскошные серьги с изумрудами. Безупречное качество и изысканный дизайн.',
+		name: 'Кулон Бесконечность',
+		description: 'Роскошный кулон с двумя бесконечностями. Символ вечной любви.',
 		price: 67000,
 		images: ['https://via.placeholder.com/150'],
 		sizes: ['S', 'M', 'L'],
 		maxQuantity: 2,
-		model: 'earrings_emerald',
+		modelName: 'ogerel',
 		defaultMetalColor: '#ffd700',
-		defaultStoneColor: '#50C878',
 	},
 ]
 
-function ModelViewer({ metalColor, stoneColor }: { metalColor: string; stoneColor: string }) {
+function ModelViewer({ metalColor, modelName }: { metalColor: string; modelName: string }) {
 	return (
 		<View style={styles.canvasContainer}>
-			<RingViewer metalColor={metalColor} stoneColor={stoneColor} />
+			<RingViewer metalColor={metalColor} modelName={modelName} />
 		</View>
 	)
 }
@@ -59,7 +56,6 @@ export default function ProductScreen() {
 	const [selectedSize, setSelectedSize] = useState<string | undefined>()
 	const [show3D, setShow3D] = useState(false)
 	const [metalColor, setMetalColor] = useState('#ffd700')
-	const [stoneColor, setStoneColor] = useState('#ffffff')
 
 	const product = PRODUCTS.find(p => p.id === id)
 
@@ -69,9 +65,6 @@ export default function ProductScreen() {
 		}
 		if (product?.defaultMetalColor) {
 			setMetalColor(product.defaultMetalColor)
-		}
-		if (product?.defaultStoneColor) {
-			setStoneColor(product.defaultStoneColor)
 		}
 	}, [product])
 
@@ -103,15 +96,6 @@ export default function ProductScreen() {
 		{ name: 'Чёрное золото', color: '#2c2c2c' },
 	]
 
-	const stoneOptions = [
-		{ name: 'Бриллиант', color: '#ffffff' },
-		{ name: 'Рубин', color: '#e0115f' },
-		{ name: 'Сапфир', color: '#0f52ba' },
-		{ name: 'Изумруд', color: '#50c878' },
-		{ name: 'Аметист', color: '#9966cc' },
-		{ name: 'Топаз', color: '#ffc87c' },
-	]
-
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -125,7 +109,7 @@ export default function ProductScreen() {
 			<ScrollView style={styles.content}>
 				{show3D ? (
 					<View style={styles.canvasContainer}>
-						<RingViewer metalColor={metalColor} stoneColor={stoneColor} />
+						<RingViewer metalColor={metalColor} modelName={product.modelName} />
 					</View>
 				) : (
 					<Image source={{ uri: product.images[0] }} style={styles.productImage} />
@@ -182,23 +166,6 @@ export default function ProductScreen() {
 										metalColor === metal.color && styles.colorCircleSelected,
 									]}
 									onPress={() => setMetalColor(metal.color)}
-								/>
-							))}
-						</View>
-					</View>
-
-					<View style={styles.sizesSection}>
-						<Text style={styles.sizesLabel}>Камень:</Text>
-						<View style={styles.colorRow}>
-							{stoneOptions.map(stone => (
-								<TouchableOpacity
-									key={stone.name}
-									style={[
-										styles.colorCircle,
-										{ backgroundColor: stone.color },
-										stoneColor === stone.color && styles.colorCircleSelected,
-									]}
-									onPress={() => setStoneColor(stone.color)}
 								/>
 							))}
 						</View>

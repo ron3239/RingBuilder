@@ -1,7 +1,7 @@
 // components/3d/RingViewer.tsx
 import { OrbitControls, useGLTF } from '@react-three/drei'
 import { Canvas, useFrame } from '@react-three/fiber'
-import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import * as THREE from 'three'
 
@@ -9,54 +9,53 @@ const SERVER_URL = 'http://192.168.1.161:3000'
 
 interface RingViewerProps {
 	metalColor?: string
-	stoneColor?: string
 	autoRotate?: boolean
 	onLoad?: () => void
 	enableRotate?: boolean
+	modelName?: string
 }
 
-function GLBRing({ metalColor, stoneColor }: { metalColor: string; stoneColor: string }) {
-	const { scene } = useGLTF(`${SERVER_URL}/models/ring.glb`)
-	const groupRef = useRef<THREE.Group>(null)
+const MODEL_CONFIG: Record<
+	string,
+	{ scale: number; position: [number, number, number]; rotation?: [number, number, number] }
+> = {
+	ring: { scale: 0.7, position: [75, -15, 15], rotation: [0, 0, 0] },
+	david_star: { scale: 0.5, position: [-1, 0, -1], rotation: [5, 0, 10] },
+	ogerel: { scale: 0.1, position: [0.4, 0, -0.5], rotation: [0, 0, Math.PI / 2] },
+}
 
-	const clonedScene = useMemo(() => {
-		const cloned = scene.clone()
-		cloned.traverse(child => {
-			if (child instanceof THREE.Mesh) {
-				console.log('🔍 Mesh name:', child.name)
-				const name = child.name.toLowerCase()
-				if (name.includes('stone') || name.includes('gem') || name.includes('diamond')) {
-					child.material = new THREE.MeshStandardMaterial({
-						color: stoneColor,
-						metalness: 0.3,
-						roughness: 0.1,
-						emissive: stoneColor,
-						emissiveIntensity: 0.15,
-					})
-				} else {
-					child.material = new THREE.MeshStandardMaterial({
-						color: metalColor,
-						metalness: 0.9,
-						roughness: 0.15,
-					})
-				}
+function GLBRing({ metalColor, modelName = 'ring' }: { metalColor: string; modelName?: string }) {
+	const { scene } = useGLTF(`${SERVER_URL}/models/${modelName}.glb`)
+	const groupRef = useRef<THREE.Group>(null)
+	const config = MODEL_CONFIG[modelName] || MODEL_CONFIG.ring
+
+	useEffect(() => {
+		scene.traverse(child => {
+			if ((child as THREE.Mesh).isMesh) {
+				const mesh = child as THREE.Mesh
+				const newMaterial = new THREE.MeshStandardMaterial({
+					color: metalColor,
+					metalness: 0.9,
+					roughness: 0.15,
+				})
+				mesh.material = newMaterial
 			}
 		})
-		return cloned
-	}, [scene, metalColor, stoneColor])
+	}, [metalColor])
 
 	return (
 		<group ref={groupRef}>
 			<primitive
-				object={clonedScene}
-				scale={0.7}
-				position={[75, -15, 15]}
+				object={scene}
+				scale={config.scale}
+				position={config.position}
+				rotation={config.rotation}
 			/>
 		</group>
 	)
 }
 
-function FallbackRing({ metalColor, stoneColor }: { metalColor: string; stoneColor: string }) {
+function FallbackRing({ metalColor }: { metalColor: string }) {
 	const groupRef = useRef<THREE.Group>(null)
 
 	useFrame(() => {
@@ -75,29 +74,16 @@ function FallbackRing({ metalColor, stoneColor }: { metalColor: string; stoneCol
 					roughness={0.15}
 				/>
 			</mesh>
-			<mesh
-				position={[0, 0.4, 0]}
-				rotation={[0.3, 0, 0]}
-			>
-				<octahedronGeometry args={[0.35, 0]} />
-				<meshStandardMaterial
-					color={stoneColor}
-					metalness={0.3}
-					roughness={0.1}
-					emissive={stoneColor}
-					emissiveIntensity={0.15}
-				/>
-			</mesh>
 		</group>
 	)
 }
 
 export default function RingViewer({
 	metalColor = '#ffd700',
-	stoneColor = '#ffffff',
 	autoRotate = true,
 	onLoad,
 	enableRotate = false,
+	modelName = 'ring',
 }: RingViewerProps) {
 	const [loading, setLoading] = useState(true)
 	const orbitRef = useRef<any>(null)
@@ -175,7 +161,7 @@ export default function RingViewer({
 					<Suspense fallback={null}>
 						<GLBRing
 							metalColor={metalColor}
-							stoneColor={stoneColor}
+							modelName={modelName}
 						/>
 					</Suspense>
 				</Canvas>

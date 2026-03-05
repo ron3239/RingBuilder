@@ -8,26 +8,29 @@ import { Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from
 const PRODUCTS = [
 	{
 		id: '1',
-		name: 'Кольцо с бриллиантом',
+		name: 'Браслет с двумя змеями',
 		price: 45000,
 		images: ['https://via.placeholder.com/150'],
 		sizes: ['16', '17', '18', '19', '20'],
 		maxQuantity: 5,
+		modelName: 'ring',
 	},
 	{
 		id: '2',
-		name: 'Подвеска с сапфиром',
+		name: 'Кулон Звезда Давида',
 		price: 32000,
 		images: ['https://via.placeholder.com/150'],
 		maxQuantity: 3,
+		modelName: 'david_star',
 	},
 	{
 		id: '3',
-		name: 'Серьги изумрудные',
+		name: 'Кулон Бесконечность',
 		price: 67000,
 		images: ['https://via.placeholder.com/150'],
 		sizes: ['S', 'M', 'L'],
 		maxQuantity: 2,
+		modelName: 'ogerel',
 	},
 ]
 

@@ -11,7 +11,8 @@ export interface BaseTemplate {
   id: string;
   name: string;
   description: string;
-  previewImage: string; // URL or local asset path
+  previewImage: string;
+  modelName?: string;
 }
 
 /**

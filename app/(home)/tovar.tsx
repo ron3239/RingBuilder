@@ -4,8 +4,7 @@ import { useState } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 export default function TovarScreen() {
-	const [metalColor, setMetalColor] = useState('#ffd700') // золото
-	const [stoneColor, setStoneColor] = useState('#ffffff') // бриллиант
+	const [metalColor, setMetalColor] = useState('#ffd700')
 	const [selectedSize, setSelectedSize] = useState('17')
 	const [modelLoaded, setModelLoaded] = useState(false)
 
@@ -18,21 +17,11 @@ export default function TovarScreen() {
 		{ name: 'Чёрное золото', color: '#2c2c2c' },
 	]
 
-	const stoneOptions = [
-		{ name: 'Бриллиант', color: '#ffffff' },
-		{ name: 'Рубин', color: '#e0115f' },
-		{ name: 'Сапфир', color: '#0f52ba' },
-		{ name: 'Изумруд', color: '#50c878' },
-		{ name: 'Аметист', color: '#9966cc' },
-		{ name: 'Топаз', color: '#ffc87c' },
-	]
-
 	return (
 		<ScrollView style={styles.container}>
 			<View style={styles.viewerContainer}>
 				<RingViewer
 					metalColor={metalColor}
-					stoneColor={stoneColor}
 					autoRotate={!modelLoaded}
 					onLoad={() => setModelLoaded(true)}
 				/>
@@ -53,21 +42,6 @@ export default function TovarScreen() {
 								metalColor === metal.color && styles.colorCircleSelected,
 							]}
 							onPress={() => setMetalColor(metal.color)}
-						/>
-					))}
-				</View>
-
-				<Text style={styles.sectionTitle}>Камень</Text>
-				<View style={styles.colorRow}>
-					{stoneOptions.map(stone => (
-						<TouchableOpacity
-							key={stone.name}
-							style={[
-								styles.colorCircle,
-								{ backgroundColor: stone.color },
-								stoneColor === stone.color && styles.colorCircleSelected,
-							]}
-							onPress={() => setStoneColor(stone.color)}
 						/>
 					))}
 				</View>

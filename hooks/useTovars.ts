@@ -25,6 +25,7 @@ export interface Product {
 	colors?: string[]
 	inStock?: boolean
 	maxQuantity?: number
+	modelName?: string
 }
 
 const CART_STORAGE_KEY = '@cart_items'
