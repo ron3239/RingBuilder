@@ -24,6 +24,18 @@ const tabs: TabItem[] = [
 		iconFocused: 'cart',
 	},
 	{
+		name: 'favorites',
+		title: 'Избранное',
+		icon: 'heart-outline',
+		iconFocused: 'heart',
+	},
+	{
+		name: 'orders',
+		title: 'Заказы',
+		icon: 'bag-outline',
+		iconFocused: 'bag',
+	},
+	{
 		name: 'profile',
 		title: 'Профиль',
 		icon: 'person-outline',

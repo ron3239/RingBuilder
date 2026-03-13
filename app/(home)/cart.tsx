@@ -1,11 +1,15 @@
 // app/(home)/cart.tsx
 import { useCart } from '@/contexts/CartContext'
+import { useOrders } from '@/contexts/OrdersContext'
 import { Ionicons } from '@expo/vector-icons'
+import { useRouter } from 'expo-router'
 import { useEffect } from 'react'
 import { Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 export default function CartScreen() {
 	const { cart, updateQuantity, removeFromCart, getTotalPrice, clearCart } = useCart()
+	const { addOrder } = useOrders()
+	const router = useRouter()
 
 	// ВАЖНО: Добавьте это логирование
 	console.log('🛍️ CartScreen РЕНДЕРИТСЯ')
@@ -25,10 +29,17 @@ export default function CartScreen() {
 			{
 				text: 'Оформить',
 				onPress: () => {
-					// Здесь будет логика оформления заказа
-					Alert.alert('Успешно', 'Заказ оформлен!')
-					// Очищаем корзину после оформления
-					// clearCart() // Раскомментировать когда будет готова логика
+					const orderItems = cart.map(item => ({
+						name: item.name,
+						price: item.price,
+						quantity: item.quantity,
+						selectedSize: item.selectedSize,
+					}))
+					addOrder(orderItems, total)
+					clearCart()
+					Alert.alert('Успешно', 'Заказ оформлен!', [
+						{ text: 'OK', onPress: () => router.push('/orders') }
+					])
 				},
 			},
 		])

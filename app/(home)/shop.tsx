@@ -1,5 +1,6 @@
 // app/(home)/shop.tsx
 import { useCart } from '@/contexts/CartContext'
+import { useFavorites } from '@/contexts/FavoritesContext'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
@@ -10,7 +11,7 @@ const PRODUCTS = [
 		id: '1',
 		name: 'Браслет с двумя змеями',
 		price: 45000,
-		images: ['https://via.placeholder.com/150'],
+		images: [require('../../assets/images/1.jpg')],
 		sizes: ['16', '17', '18', '19', '20'],
 		maxQuantity: 5,
 		modelName: 'ring',
@@ -19,7 +20,7 @@ const PRODUCTS = [
 		id: '2',
 		name: 'Кулон Звезда Давида',
 		price: 32000,
-		images: ['https://via.placeholder.com/150'],
+		images: [require('../../assets/images/2.jpg')],
 		maxQuantity: 3,
 		modelName: 'david_star',
 	},
@@ -27,7 +28,7 @@ const PRODUCTS = [
 		id: '3',
 		name: 'Кулон Бесконечность',
 		price: 67000,
-		images: ['https://via.placeholder.com/150'],
+		images: [require('../../assets/images/3.jpg')],
 		sizes: ['S', 'M', 'L'],
 		maxQuantity: 2,
 		modelName: 'ogerel',
@@ -36,6 +37,7 @@ const PRODUCTS = [
 
 export default function ShopScreen() {
 	const { addToCart, removeFromCart, isInCart, getItemQuantity } = useCart()
+	const { addFavorite, removeFavorite, isFavorite } = useFavorites()
 	const [selectedSizes, setSelectedSizes] = useState<Record<string, string>>({})
 	const router = useRouter()
 
@@ -84,18 +86,41 @@ export default function ShopScreen() {
 
 					return (
 						<View style={styles.productCard}>
-							<TouchableOpacity
-								activeOpacity={0.8}
-								onPress={() => {
-									// @ts-ignore
-									router.push(`/(home)/product/${item.id}`)
-								}}
-							>
-								<Image
-									source={{ uri: item.images[0] }}
-									style={styles.productImage}
-								/>
-							</TouchableOpacity>
+							<View>
+								<TouchableOpacity
+									activeOpacity={0.8}
+									onPress={() => {
+										// @ts-ignore
+										router.push(`/(home)/product/${item.id}`)
+									}}
+								>
+									<Image
+										source={item.images[0]}
+										style={styles.productImage}
+									/>
+								</TouchableOpacity>
+								<TouchableOpacity
+									style={styles.favoriteButton}
+									onPress={() => {
+										if (isFavorite(item.id)) {
+											removeFavorite(item.id)
+										} else {
+											addFavorite({
+												name: item.name,
+												price: item.price,
+												image: item.images[0],
+												metal: 'Золото 750',
+											}, item.id)
+										}
+									}}
+								>
+									<Ionicons
+										name={isFavorite(item.id) ? 'heart' : 'heart-outline'}
+										size={24}
+										color={isFavorite(item.id) ? '#FF3B30' : '#fff'}
+									/>
+								</TouchableOpacity>
+							</View>
 
 							<View style={styles.productInfo}>
 								<Text style={styles.productName}>{item.name}</Text>
@@ -231,6 +256,17 @@ const styles = StyleSheet.create({
 		height: 200,
 		borderTopLeftRadius: 12,
 		borderTopRightRadius: 12,
+	},
+	favoriteButton: {
+		position: 'absolute',
+		top: 10,
+		right: 10,
+		width: 40,
+		height: 40,
+		borderRadius: 20,
+		backgroundColor: 'rgba(0,0,0,0.3)',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	productInfo: {
 		padding: 15,

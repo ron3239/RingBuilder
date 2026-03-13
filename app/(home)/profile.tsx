@@ -33,51 +33,6 @@ export default function ProfileScreen() {
 
 	const menuItems = [
 		{
-			id: 'orders',
-			icon: 'bag-handle-outline' as const,
-			title: 'Мои заказы',
-			badge: '3',
-			onPress: () => Alert.alert('Мои заказы', 'Функция в разработке'),
-		},
-		{
-			id: 'favorites',
-			icon: 'heart-outline' as const,
-			title: 'Избранное',
-			badge: '5',
-			onPress: () => Alert.alert('Избранное', 'Функция в разработке'),
-		},
-		{
-			id: 'designs',
-			icon: 'cube-outline' as const,
-			title: 'Мои дизайны',
-			badge: '2',
-			onPress: () => Alert.alert('Мои дизайны', 'Функция в разработке'),
-		},
-		{
-			id: 'addresses',
-			icon: 'location-outline' as const,
-			title: 'Адреса доставки',
-			onPress: () => Alert.alert('Адреса', 'Функция в разработке'),
-		},
-		{
-			id: 'payments',
-			icon: 'card-outline' as const,
-			title: 'Способы оплаты',
-			onPress: () => Alert.alert('Оплата', 'Функция в разработке'),
-		},
-		{
-			id: 'settings',
-			icon: 'settings-outline' as const,
-			title: 'Настройки',
-			onPress: () => Alert.alert('Настройки', 'Функция в разработке'),
-		},
-		{
-			id: 'support',
-			icon: 'help-circle-outline' as const,
-			title: 'Поддержка',
-			onPress: () => Alert.alert('Поддержка', 'Функция в разработке'),
-		},
-		{
 			id: 'about',
 			icon: 'information-circle-outline' as const,
 			title: 'О приложении',
@@ -97,38 +52,7 @@ export default function ProfileScreen() {
 					<Text style={styles.avatarText}>{user?.username?.[0]?.toUpperCase() || 'U'}</Text>
 				</View>
 				<Text style={styles.userName}>{user?.username || 'Пользователь'}</Text>
-				<Text style={styles.userEmail}>{user?.email || 'email@example.com'}</Text>
-
-				{/* Кнопка редактирования профиля */}
-				<TouchableOpacity
-					style={styles.editButton}
-					onPress={() => Alert.alert('Редактирование', 'Функция в разработке')}
-				>
-					<Ionicons
-						name='create-outline'
-						size={20}
-						color='#007AFF'
-					/>
-					<Text style={styles.editButtonText}>Редактировать</Text>
-				</TouchableOpacity>
-			</View>
-
-			{/* Статистика */}
-			<View style={styles.statsContainer}>
-				<View style={styles.statItem}>
-					<Text style={styles.statValue}>12</Text>
-					<Text style={styles.statLabel}>Заказы</Text>
-				</View>
-				<View style={styles.statDivider} />
-				<View style={styles.statItem}>
-					<Text style={styles.statValue}>5</Text>
-					<Text style={styles.statLabel}>Избранные</Text>
-				</View>
-				<View style={styles.statDivider} />
-				<View style={styles.statItem}>
-					<Text style={styles.statValue}>3</Text>
-					<Text style={styles.statLabel}>Дизайны</Text>
-				</View>
+			<Text style={styles.userEmail}>{user?.email || 'email@example.com'}</Text>
 			</View>
 
 			{/* Меню */}
@@ -150,12 +74,12 @@ export default function ProfileScreen() {
 							</View>
 							<Text style={styles.menuItemTitle}>{item.title}</Text>
 						</View>
-						<View style={styles.menuItemRight}>
-							{item.badge && (
+					<View style={styles.menuItemRight}>
+							{/* badge && (
 								<View style={styles.badge}>
-									<Text style={styles.badgeText}>{item.badge}</Text>
+									<Text style={styles.badgeText}>{badge}</Text>
 								</View>
-							)}
+							)*/}
 							<Ionicons
 								name='chevron-forward'
 								size={20}

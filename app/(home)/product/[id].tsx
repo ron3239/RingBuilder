@@ -1,6 +1,6 @@
 // app/(home)/product/[id].tsx
-import { useCart } from '@/contexts/CartContext'
 import RingViewer from '@/components/models/RingViewer'
+import { useCart } from '@/contexts/CartContext'
 import { Ionicons } from '@expo/vector-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useEffect, useState } from 'react'
@@ -12,7 +12,7 @@ const PRODUCTS = [
 		name: 'Браслет с двумя змеями',
 		description: 'Элегантный браслет с двумя змеями. Уникальный дизайн для стильного образа.',
 		price: 45000,
-		images: ['https://via.placeholder.com/150'],
+		images: [require('../../../assets/images/1.jpg')],
 		sizes: ['16', '17', '18', '19', '20'],
 		maxQuantity: 5,
 		modelName: 'ring',
@@ -23,7 +23,7 @@ const PRODUCTS = [
 		name: 'Кулон Звезда Давида',
 		description: 'Изящный кулон в виде Звезды Давида. Символ веры и защиты.',
 		price: 32000,
-		images: ['https://via.placeholder.com/150'],
+		images: [require('../../../assets/images/2.jpg')],
 		maxQuantity: 3,
 		modelName: 'david_star',
 		defaultMetalColor: '#ffd700',
@@ -33,7 +33,7 @@ const PRODUCTS = [
 		name: 'Кулон Бесконечность',
 		description: 'Роскошный кулон с двумя бесконечностями. Символ вечной любви.',
 		price: 67000,
-		images: ['https://via.placeholder.com/150'],
+		images: [require('../../../assets/images/3.jpg')],
 		sizes: ['S', 'M', 'L'],
 		maxQuantity: 2,
 		modelName: 'ogerel',
@@ -44,7 +44,10 @@ const PRODUCTS = [
 function ModelViewer({ metalColor, modelName }: { metalColor: string; modelName: string }) {
 	return (
 		<View style={styles.canvasContainer}>
-			<RingViewer metalColor={metalColor} modelName={modelName} />
+			<RingViewer
+				metalColor={metalColor}
+				modelName={modelName}
+			/>
 		</View>
 	)
 }
@@ -99,8 +102,15 @@ export default function ProductScreen() {
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
-				<TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-					<Ionicons name="arrow-back" size={24} color="#333" />
+				<TouchableOpacity
+					onPress={() => router.back()}
+					style={styles.backButton}
+				>
+					<Ionicons
+						name='arrow-back'
+						size={24}
+						color='#333'
+					/>
 				</TouchableOpacity>
 				<Text style={styles.headerTitle}>Товар</Text>
 				<View style={{ width: 40 }} />
@@ -109,10 +119,16 @@ export default function ProductScreen() {
 			<ScrollView style={styles.content}>
 				{show3D ? (
 					<View style={styles.canvasContainer}>
-						<RingViewer metalColor={metalColor} modelName={product.modelName} />
+						<RingViewer
+							metalColor={metalColor}
+							modelName={product.modelName}
+						/>
 					</View>
 				) : (
-					<Image source={{ uri: product.images[0] }} style={styles.productImage} />
+					<Image
+						source={product.images[0]}
+						style={styles.productImage}
+					/>
 				)}
 
 				<View style={styles.viewToggle}>
@@ -145,9 +161,7 @@ export default function ProductScreen() {
 										style={[styles.sizeButton, selectedSize === size && styles.sizeButtonSelected]}
 										onPress={() => setSelectedSize(size)}
 									>
-										<Text style={[styles.sizeText, selectedSize === size && styles.sizeTextSelected]}>
-											{size}
-										</Text>
+										<Text style={[styles.sizeText, selectedSize === size && styles.sizeTextSelected]}>{size}</Text>
 									</TouchableOpacity>
 								))}
 							</View>
@@ -174,7 +188,11 @@ export default function ProductScreen() {
 					{inCart ? (
 						<View style={styles.cartInfo}>
 							<View style={styles.quantityBadge}>
-								<Ionicons name="cart" size={16} color="#007AFF" />
+								<Ionicons
+									name='cart'
+									size={16}
+									color='#007AFF'
+								/>
 								<Text style={styles.quantityBadgeText}>{quantity} шт. в корзине</Text>
 							</View>
 							<TouchableOpacity
@@ -185,8 +203,15 @@ export default function ProductScreen() {
 							</TouchableOpacity>
 						</View>
 					) : (
-						<TouchableOpacity style={styles.addButton} onPress={handleAddToCart}>
-							<Ionicons name="cart-outline" size={20} color="#fff" />
+						<TouchableOpacity
+							style={styles.addButton}
+							onPress={handleAddToCart}
+						>
+							<Ionicons
+								name='cart-outline'
+								size={20}
+								color='#fff'
+							/>
 							<Text style={styles.addButtonText}>В корзину</Text>
 						</TouchableOpacity>
 					)}

@@ -23,6 +23,14 @@ export default function HomeLayout() {
 				options={{ title: 'Корзина' }}
 			/>
 			<Tabs.Screen
+				name='favorites'
+				options={{ title: 'Избранное' }}
+			/>
+			<Tabs.Screen
+				name='orders'
+				options={{ title: 'Заказы' }}
+			/>
+			<Tabs.Screen
 				name='profile'
 				options={{ title: 'Профиль' }}
 			/>

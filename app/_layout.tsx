@@ -1,5 +1,7 @@
 import LoadingScreen from '@/components/layout/loading'
 import { CartProvider } from '@/contexts/CartContext'
+import { FavoritesProvider } from '@/contexts/FavoritesContext'
+import { OrdersProvider } from '@/contexts/OrdersContext'
 import { useUser } from '@/hooks/useUser'
 import { router, Stack } from 'expo-router'
 import { useEffect } from 'react'
@@ -26,20 +28,24 @@ export default function RootLayout() {
 
 	return (
 		<CartProvider>
-			<Stack>
-				<Stack.Screen
-					name='(auth)'
-					options={{ headerShown: false }}
-				/>
-				<Stack.Screen
-					name='(home)'
-					options={{ headerShown: false }}
-				/>
-				<Stack.Screen
-					name='index'
-					options={{ headerShown: false }}
-				/>
-			</Stack>
+			<FavoritesProvider>
+				<OrdersProvider>
+					<Stack>
+						<Stack.Screen
+							name='(auth)'
+							options={{ headerShown: false }}
+						/>
+						<Stack.Screen
+							name='(home)'
+							options={{ headerShown: false }}
+						/>
+						<Stack.Screen
+							name='index'
+							options={{ headerShown: false }}
+						/>
+					</Stack>
+				</OrdersProvider>
+			</FavoritesProvider>
 		</CartProvider>
 	)
 }
